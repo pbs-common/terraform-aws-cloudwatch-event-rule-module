@@ -10,6 +10,7 @@ locals {
     {
       Name                                      = local.name
       "${var.organization}:billing:product"     = var.product
+      "${var.organization}:billing:owner"       = var.owner
       "${var.organization}:billing:environment" = var.environment
       creator                                   = local.creator
       repo                                      = var.repo
