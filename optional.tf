@@ -21,3 +21,21 @@ variable "lambda_permissions" {
   default     = {}
   type        = map(any)
 }
+
+variable "ecs_targets" {
+  description = "Map of ECS task targets for the CloudWatch event rule. e.g. { \"example_target_id\" = { arn = \"example_cluster_arn\", role_arn = \"example_role_arn\", task_definition_arn = \"example_task_def_arn\" } }"
+  default     = {}
+  type = map(object({
+    arn                 = string
+    role_arn            = string
+    task_definition_arn = string
+    task_count          = optional(number, 1)
+    launch_type         = optional(string, "FARGATE")
+    platform_version    = optional(string, null)
+    network_configuration = optional(object({
+      subnets          = list(string)
+      security_groups  = optional(list(string), [])
+      assign_public_ip = optional(bool, false)
+    }), null)
+  }))
+}

@@ -15,6 +15,30 @@ resource "aws_cloudwatch_event_target" "event_target" {
   role_arn  = lookup(each.value, "role_arn", null)
 }
 
+resource "aws_cloudwatch_event_target" "ecs_event_target" {
+  for_each  = var.ecs_targets
+  target_id = each.key
+  rule      = aws_cloudwatch_event_rule.event_rule.name
+  arn       = each.value.arn
+  role_arn  = each.value.role_arn
+
+  ecs_target {
+    task_definition_arn = each.value.task_definition_arn
+    task_count          = each.value.task_count
+    launch_type         = each.value.launch_type
+    platform_version    = each.value.platform_version
+
+    dynamic "network_configuration" {
+      for_each = each.value.network_configuration != null ? [each.value.network_configuration] : []
+      content {
+        subnets          = network_configuration.value.subnets
+        security_groups  = network_configuration.value.security_groups
+        assign_public_ip = network_configuration.value.assign_public_ip
+      }
+    }
+  }
+}
+
 resource "aws_lambda_permission" "allow_event_invocation" {
   for_each            = var.lambda_permissions
   statement_id_prefix = each.key
