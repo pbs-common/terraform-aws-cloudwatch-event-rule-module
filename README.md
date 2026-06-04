@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-cloudwatch-event-rule-module?ref=1.0.1
+github.com/pbs/terraform-aws-cloudwatch-event-rule-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "rule" {
-  source = "github.com/pbs/terraform-aws-cloudwatch-event-rule-module?ref=1.0.1"
+  source = "github.com/pbs/terraform-aws-cloudwatch-event-rule-module?ref=x.y.z"
 
   event_pattern = <<PATTERN
 {
@@ -57,7 +57,7 @@ PATTERN
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.0.1`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -80,7 +80,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.35.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.48.0 |
 
 ## Modules
 
@@ -91,6 +91,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_cloudwatch_event_rule.event_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_target.ecs_event_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.event_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_lambda_permission.allow_event_invocation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_default_tags.common_tags](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/default_tags) | data source |
@@ -106,6 +107,7 @@ No modules.
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | Description for the Cloud Watch Event Rule | `string` | `null` | no |
+| <a name="input_ecs_targets"></a> [ecs\_targets](#input\_ecs\_targets) | Map of ECS task targets for the CloudWatch event rule. e.g. { "example\_target\_id" = { arn = "example\_cluster\_arn", role\_arn = "example\_role\_arn", task\_definition\_arn = "example\_task\_def\_arn" } } | <pre>map(object({<br/>    arn                 = string<br/>    role_arn            = string<br/>    task_definition_arn = string<br/>    task_count          = optional(number, 1)<br/>    launch_type         = optional(string, "FARGATE")<br/>    platform_version    = optional(string, null)<br/>    network_configuration = optional(object({<br/>      subnets          = list(string)<br/>      security_groups  = optional(list(string), [])<br/>      assign_public_ip = optional(bool, false)<br/>    }), null)<br/>  }))</pre> | `{}` | no |
 | <a name="input_lambda_permissions"></a> [lambda\_permissions](#input\_lambda\_permissions) | Map of lambda permissions for the CloudWatch event rule. e.g. { "example\_statement\_id\_prefix" = "example\_lambda\_arn" } | `map(any)` | `{}` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Watch Event Rule | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Extra tags | `map(string)` | `{}` | no |
