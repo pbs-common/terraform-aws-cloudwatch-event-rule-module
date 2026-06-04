@@ -1,3 +1,15 @@
+variable "event_pattern" {
+  description = "CloudWatch event pattern. Exactly one of event_pattern or schedule_expression must be set."
+  default     = null
+  type        = string
+}
+
+variable "schedule_expression" {
+  description = "CloudWatch schedule expression (e.g. rate(5 minutes) or cron(0 12 * * ? *)). Exactly one of event_pattern or schedule_expression must be set."
+  default     = null
+  type        = string
+}
+
 variable "name" {
   description = "Name for the Cloud Watch Event Rule"
   default     = null
@@ -32,6 +44,7 @@ variable "ecs_targets" {
     task_count          = optional(number, 1)
     launch_type         = optional(string, "FARGATE")
     platform_version    = optional(string, null)
+    propagate_tags      = optional(bool, true)
     network_configuration = optional(object({
       subnets          = list(string)
       security_groups  = optional(list(string), [])
